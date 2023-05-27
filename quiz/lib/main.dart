@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       },
       {
         'questionText': 'Who was the sister of Krishna Vasudev?',
-        'answers': ['Draupadi', 'Kunti', 'Subhadra', 'Gandhar'],
+        'answers': ['Draupadi', 'Kunti', 'Subhadra', 'Gandhari'],
         //Shubhadra
       },
       {
