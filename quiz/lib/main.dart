@@ -15,21 +15,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
-
-  void _answerQuestion() {
-    setState(() {
-      //calls  the build function again
-      _questionIndex = _questionIndex + 1;
-    });
-    print(_questionIndex);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-     List questions = [
+  List questions = [   
+       //2 ways to add const
+       //const questions = [ ]   or   questions = const [ ]    jiske saamne add kro wo const(variable or value)
       //Map   questionText is a key....the key could be anything like number string etc..
-      
+      {
+        'questionText': 'Who is the mother of Bhishma?',
+        'answers': ['Dharti', 'Varsha', 'Ganga', 'Amba'],
+        //Ganga
+      },
       {
         'questionText': 'Abhimanyu was whose son?',
         'answers': ['Yudhisthir', 'Bheem', 'Arjun', 'Nakul', 'Sahdev'],
@@ -51,12 +45,37 @@ class _MyAppState extends State<MyApp> {
         //Indraprastha
       },
     ];
+  var _questionIndex = 0;
+
+  void _answerQuestion() {
+    setState(() {
+      //calls  the build function again
+      _questionIndex = _questionIndex + 1;
+    });
+    print(_questionIndex);
+    if(_questionIndex < questions.length){
+       print('We have more questions!');
+     }
+     else{
+      print('No more questions!');
+     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+     
+
+    // List dummy = ['Hello'];
+    // dummy.add('Max');      //add modifies the original list
+    //List dummy = const [];  now we cant use add function in this
+    // questions = [];  this doesnt work if questions is a const
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: Column(
+        body: _questionIndex < questions.length ?  Column(   //ternary expression
           children: [
             Question(
               questions[_questionIndex]['questionText'],   //enclose in square bracket if you need to access some specific key
@@ -76,7 +95,7 @@ class _MyAppState extends State<MyApp> {
             //   onPressed: () => print('Answer 3 chosen!'),
             // ),
           ],
-        ),
+        ) : Center(child: Text('You did it!'),),
       ),
     );
   }
