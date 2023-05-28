@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 //format doc- shift alt f
 //refactor- ctrl shift r
 
@@ -15,56 +15,79 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List questions = [   
-       //2 ways to add const
-       //const questions = [ ]   or   questions = const [ ]    jiske saamne add kro wo const(variable or value)
-      //Map   questionText is a key....the key could be anything like number string etc..
-      {
-        'questionText': 'Who is the mother of Bhishma?',
-        'answers': ['Dharti', 'Varsha', 'Ganga', 'Amba'],
-        //Ganga
-      },
-      {
-        'questionText': 'Abhimanyu was whose son?',
-        'answers': ['Yudhisthir', 'Bheem', 'Arjun', 'Nakul', 'Sahdev'],
-        //Arjun
-      },
-      {
-        'questionText': 'Who was the sister of Krishna Vasudev?',
-        'answers': ['Draupadi', 'Kunti', 'Subhadra', 'Gandhari'],
-        //Shubhadra
-      },
-      {
-        'questionText': 'Who was the son of Bheem?',
-        'answers': ['Abhimanyu', 'Ghatotkaj', 'Yudhisthir', 'Duryodhan'],
-        //Ghatotkaj
-      },
-      {
-        'questionText': 'What was the name of pandava\'s Kingdom?',
-        'answers': ['Hastinapur', 'Dwarka', 'Indraprastha', 'Gandhar'],
-        //Indraprastha
-      },
-    ];
+   final _questions = [
+    //2 ways to add const
+    //const questions = [ ]   or   questions = const [ ]    jiske saamne add kro wo const(variable or value)
+    //Map   questionText is a key....the key could be anything like number string etc..
+    {
+      'questionText': 'Who is the mother of Bhishma?',
+      'answers': [
+       {'text': 'Dharti', 'score': 0},
+       {'text': 'Varsha', 'score': 0},
+       {'text': 'Ganga', 'score': 1},
+       {'text': 'Amba', 'score': 0}],
+      //Ganga
+    },
+    {
+      'questionText': 'Abhimanyu was whose son?',
+      'answers': [
+       {'text': 'Yudhisthir', 'score': 0},
+       {'text': 'Bheem', 'score': 0}, 
+       {'text': 'Arjun', 'score': 1}, 
+       {'text': 'Nakul', 'score': 0}, 
+       {'text': 'Sahdev', 'score': 0}],
+      //Arjun
+    },
+    {
+      'questionText': 'Who was the sister of Krishna Vasudev?',
+      'answers': [
+       {'text': 'Draupadi', 'score': 0},
+       {'text': 'Kunti', 'score': 0}, 
+       {'text': 'Subhadra', 'score': 1}, 
+       {'text': 'Gandhari', 'score': 0},],
+      //Shubhadra
+    },
+    {
+      'questionText': 'Who was the son of Bheem?',
+      'answers': [
+       {'text': 'Abhimanyu', 'score': 0},
+       {'text': 'Ghatotkaj', 'score': 1}, 
+       {'text': 'Yudhisthir', 'score': 0}, 
+       {'text': 'Duryodhan', 'score': 0},]
+      //Ghatotkaj
+    },
+    {
+      'questionText': 'What was the name of pandava\'s Kingdom?',
+      'answers': [
+       {'text': 'Duryodhan', 'score': 0},
+       {'text': 'Hastinapur', 'score': 0}, 
+       {'text': 'Dwarka', 'score': 0}, 
+       {'text': 'Indraprastha', 'score': 1}, 
+       {'text': 'Gandhar', 'score': 0}, ],
+      //Indraprastha
+    },
+  ];
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       //calls  the build function again
       _questionIndex = _questionIndex + 1;
     });
+
     print(_questionIndex);
-    if(_questionIndex < questions.length){
-       print('We have more questions!');
-     }
-     else{
+    if (_questionIndex < _questions.length) {
+      print('We have more questions!');
+    } else {
       print('No more questions!');
-     }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-     
-
     // List dummy = ['Hello'];
     // dummy.add('Max');      //add modifies the original list
     //List dummy = const [];  now we cant use add function in this
@@ -75,27 +98,20 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: Text('My First App'),
         ),
-        body: _questionIndex < questions.length ?  Column(   //ternary expression
-          children: [
-            Question(
-              questions[_questionIndex]['questionText'],   //enclose in square bracket if you need to access some specific key
-            ),
-            ...(questions[_questionIndex]['answers'] as List<String>).map((answer) {       // ...spread operator
-              return Answer(_answerQuestion, answer);
-            }).toList()
-            // Answer(_answerQuestion), //forward pointer so no parenthesis
-            // Answer(_answerQuestion),
-            // Answer(_answerQuestion),
-            // ElevatedButton(
-            //   child: Text('Answer 2'),
-            //   onPressed: () => print('Answer 2 chosen!'),
-            // ),
-            // ElevatedButton(
-            //   child: Text('Answer 3'),
-            //   onPressed: () => print('Answer 3 chosen!'),
-            // ),
-          ],
-        ) : Center(child: Text('You did it!'),),
+        body: _questionIndex < _questions.length
+            ? Quiz(answerQuestion: _answerQuestion, questionIndex: _questionIndex, questions: _questions,) //ternary expression
+            : Result(_totalScore),
+        // Answer(_answerQuestion), //forward pointer so no parenthesis
+        // Answer(_answerQuestion),
+        // Answer(_answerQuestion),
+        // ElevatedButton(
+        //   child: Text('Answer 2'),
+        //   onPressed: () => print('Answer 2 chosen!'),
+        // ),
+        // ElevatedButton(
+        //   child: Text('Answer 3'),
+        //   onPressed: () => print('Answer 3 chosen!'),
+        // ),
       ),
     );
   }
