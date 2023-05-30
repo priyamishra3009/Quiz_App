@@ -18,7 +18,7 @@ class Question extends StatelessWidget {
       //child->padding->border->margin   (from inside to out)
         child: Text(
       questionText,
-      style: TextStyle(fontSize: 28),
+      style: TextStyle(fontSize: 30, color: Colors.white),
       textAlign: TextAlign.center,
     ));
   }
