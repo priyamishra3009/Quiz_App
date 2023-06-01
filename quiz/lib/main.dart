@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       //Ghatotkaj
     },
     {
-      'questionText': 'What was the name of pandava\'s Kingdom?',
+      'questionText': 'What was the name of pandava\'s Kingdom?', 
       'answers': [
         {'text': 'Duryodhan', 'score': 0},
         {'text': 'Hastinapur', 'score': 0},
